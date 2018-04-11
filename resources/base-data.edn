@@ -1,0 +1,11 @@
+
+{:url "https://raleigh.craigslist.org/d/sublets-temporary/search/sub"
+
+ :update-period "30000" ; half a minute
+
+ :record-resource "previous-found.edn"
+
+ :max-price 650
+
+ :filter-words ["carrboro", "durham", "unc", "duke", "chapel"]}
+

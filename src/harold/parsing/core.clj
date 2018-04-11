@@ -1,10 +1,19 @@
 (ns harold.parsing.core
-  (:refer-clojure :exclude [time]))
+  (:refer-clojure :exclude [time])
+  (:require [clj-time.core :as t]
+            [clj-time.format :as t-format]))
 
-;(def price-regex #"\$(.*)\D")
-(def price-regex #"\$(\d*)")
+(def ^:private price-regex #"\$(\d*)")
 
-;(def test-price )
+;; The time format that craigslist uses.
+(def ^:private time-format (t-format/formatter "yyyy-MM-dd HH:mm"))
+
+(defn- get-attribute [e, selector, attr]
+  (.get (.attributes (first (.select e selector)))
+        attr))
+
+
+
 
 (defn description [e]
   (.html (.select e "a.result-title")))
@@ -13,17 +22,10 @@
   (when-let [price-text (last (re-find price-regex
                                        (.html (.select e "span.result-price"))))]
     (Integer/parseInt price-text)))
-;(defn price [e]
-;  (try
-;    (Integer/parseInt (last (re-find price-regex
-;                                     (.html (.select e "span.result-price")))))
-;    (catch Exception ex
-;      (throw (new Exception (format "Problem parsing price (%s)." (.html (.select e "span.result-price")))
-;                            ex)))))
 
 (defn time [e]
-  (.get (.attributes (first (.select e "time.result-date")))
-        "datetime"))
+  (t-format/parse time-format (.get (.attributes (first (.select e "time.result-date")))
+                               "datetime")))
 
-;(defn funky []
-;  (re-find price-regex "$395\n$395"))
+(defn url [e]
+  (get-attribute e "a.result-image", "href"))
