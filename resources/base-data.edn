@@ -1,7 +1,8 @@
 
 {:url "https://raleigh.craigslist.org/d/sublets-temporary/search/sub"
 
- :update-period "30000" ; half a minute
+ ;:update-period 30000 ; half a minute
+ :update-period 30000 ; half a minute
 
  :record-resource "previous-found.edn"
 

@@ -9,21 +9,25 @@
             [clj-time.core :as t]
             [clj-time.format :as t-format]
             [orchestra.spec.test :as orchestra]
-            [clojure.tools.logging :as log]
+            ;[clojure.tools.logging :as log]
             [harold.constants :as constants]
             [clojure.spec.alpha :as spec]
             [harold.utils :as utils]
             [harold.services.email :as email]
-            [harold.services.persistence :as persistence])
+            [harold.persistence.core :as persistence])
   (:import [org.jsoup Jsoup]
            (org.joda.time DateTime)))
 
 (orchestra/instrument)
 
 (defn fetch-document [url]
-  (-> url
-      (Jsoup/connect)
-      (.get)))
+  (if (.contains url "https://")
+    (-> url
+        (Jsoup/connect)
+        (.get))
+    ;else (assume testing)
+    (Jsoup/parse (slurp (io/resource url)))))
+
 
 (defn get-result-rows [doc]
   (.select doc "li.result-row"))
@@ -37,19 +41,24 @@
        rows))
 
 (defn- get-sleep-time
-  "Returns the time to sleep (milliseconds (long)) until the next `inquiry`."
+  "Returns the time to sleep (milliseconds (long)) until the next `inquiry`.
+   Returns nil if there is no time to wait."
   [last-run, update-period]
-  (let [now (t/now)
-        millis-since-last-run (- (.getMillis now)
-                                 (.getMillis last-run))]
-    (- update-period millis-since-last-run)))
+  (when last-run
+    (let [now (t/now)
+          millis-since-last-run (- (.getMillis now)
+                                   (.getMillis last-run))
+          time-to-sleep (- update-period millis-since-last-run)]
+      (if (not (pos? time-to-sleep))
+        nil
+        time-to-sleep))))
 
 (spec/fdef get-sleep-time :args (spec/cat :last-run #(instance? DateTime %)
                                           :update-period pos-int?)
-                          :ret pos-int?)
+                          :ret (spec/nilable pos-int?))
 
 (defn perform-new-inquiry! [base-data, runtime-data]
-  (log/info "Performing new inquiry!")
+  (println "Performing new inquiry!")
   (let [retrieved-data (->> base-data
                             :url
                             (fetch-document)
@@ -57,22 +66,25 @@
                             (parse-result-rows))
         pre-filtered-data (basic-filter/filter base-data retrieved-data)
         complete-filtered-data (relevance-filter/filter runtime-data pre-filtered-data)]
-    (do
-      (email/email complete-filtered-data)
-      (persistence/update-runtime-data! complete-filtered-data))))
+    (when (not (empty? complete-filtered-data))
+      (email/email complete-filtered-data))
+    (persistence/update-runtime-data! complete-filtered-data)))
 
 (defn main-loop []
-  (log/info "Starting main loop.")
-  (let [base-data (utils/get-base-data)
-        update-period (:update-period base-data)]
+  (println "Starting main loop.")
+  (let [base-data (utils/get-base-data)]
     (loop []
       (let [runtime-data (utils/get-runtime-data)
-            last-run (utils/get-last-run runtime-data)]
-        (if (or (nil? last-run)
-                (t/after? (t/now) last-run))
-            (perform-new-inquiry! base-data, runtime-data)
-            ;else
-            (Thread/sleep (get-sleep-time last-run, update-period)))
+            last-run (utils/get-last-run runtime-data)
+            sleep-time (get-sleep-time last-run (:update-period base-data))]
+        (if sleep-time
+          (do
+            (println (format "Sleeping %s mms." sleep-time))
+            (Thread/sleep sleep-time))
+          ;else
+          (do
+            ;(Thread/sleep 5000) ;; Try to avoid getting blocked in any case.
+            (perform-new-inquiry! base-data, runtime-data)))
         (recur)))))
 
 (defn -main

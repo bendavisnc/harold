@@ -1,6 +1,7 @@
 (ns harold.filtering.basic
   "Filters items based on basic, standard rules."
-  (:refer-clojure :exclude [filter]))
+  (:refer-clojure :exclude [filter])
+  (:require [clojure.string :as string]))
 
 (defn- right-price?
   "Returns true if the supplied item's price is less than or equal to the configured max price."
@@ -14,7 +15,7 @@
     (loop [[filter-word & rest-words :as filter-words] (:filter-words base-data)]
       (cond
         (empty? filter-words) false
-        (.contains description filter-word) true
+        (.contains (string/lower-case description) filter-word) true
         :else (recur rest-words)))))
 
 

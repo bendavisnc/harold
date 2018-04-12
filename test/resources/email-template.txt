@@ -1,0 +1,11 @@
+
+Found {{count}} results:
+
+{{#items}}
+{{index}}.
+title: {{description}}
+price: {{price}}
+link: {{url}}
+
+{{/items}}
+

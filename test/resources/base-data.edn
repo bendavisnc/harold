@@ -1,0 +1,11 @@
+{
+ :url "test-doc.html"
+
+ :update-period 5000
+
+ :record-resource "previous-found.edn"
+
+ :max-price 650
+
+ :filter-words ["carrboro", "durham", "unc", "duke", "chapel"]}
+
