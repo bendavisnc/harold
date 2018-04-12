@@ -8,7 +8,9 @@
                  [clj-time "0.14.3"],
                  [orchestra "2017.11.12-1"]
                  [org.clojure/tools.logging "0.4.0"]
-                 [de.ubercode.clostache/clostache "1.4.0"]]
+                 [de.ubercode.clostache/clostache "1.4.0"]
+                 ;[mmemail "1.0.1"]
+                 [com.draines/postal "2.0.2"]]
   :main ^:skip-aot harold.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}
