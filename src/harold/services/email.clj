@@ -14,6 +14,13 @@
 (defn- get-username [email-address]
   (subs email-address 0 (.indexOf email-address "@")))
 
+(defn- add-indexes [items]
+  (map #(assoc %1 :index (inc %2))
+       items
+       (range (count items))))
+
+
+
 (defn send-email [subject, body]
   (let [{:keys [address, password]} (get-email-creds)]
     (e/send-message {:host "smtp.gmail.com"
@@ -28,10 +35,10 @@
 
 (defn email [items]
   (println "Sending new email...")
-  (println (m/render-resource "email-template.txt" {:count (count items)
-                                                    :items (map #(assoc %1 :index (inc %2))
-                                                                items
-                                                                (range (count items)))})))
+  (println (m/render-resource "email-body-template.txt" {:count (count items)
+                                                         :items (add-indexes items)})))
+
+
 
 
 

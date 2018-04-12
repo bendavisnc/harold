@@ -5,7 +5,9 @@
             [harold.filtering.basic :as basic-filter]
             [harold.utils :as utils]
             [clj-time.core :as t]
-            [clojure.java.io :as io])
+            [clojure.java.io :as io]
+            [clojure.string :as string]
+            [harold.test-utils :refer [remove-last-lines]])
   (:import (java.io StringWriter)))
 
 (defn setup-and-teardown [run-tests]
@@ -14,6 +16,7 @@
     (spit (io/resource "runtime-data.edn") original-runtime-data)))
 
 (use-fixtures :once setup-and-teardown)
+
 
 (deftest harold-core-tests
 
@@ -30,7 +33,7 @@
                            (harold/fetch-document (:url (utils/get-base-data)))))))))
 
   (testing "harold.filtering.basic"
-    (is (= 66
+    (is (= 49
            (count (basic-filter/filter (utils/get-base-data)
                                        (harold/parse-result-rows
                                          (harold/get-result-rows
@@ -47,8 +50,6 @@
                 wait-time)
         (Thread/sleep 1000))
       (future-cancel async-process)
-      (is (= 8
-             (str out-capture))))))
-
-
+      (is (= (remove-last-lines (slurp (io/resource "whole-shebang-result.txt")), 1)
+             (remove-last-lines (str out-capture), 1))))))
 

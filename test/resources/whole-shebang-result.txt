@@ -1,0 +1,65 @@
+Starting main loop.
+Performing new inquiry!
+Sending new email...
+
+Found 11 results:
+
+1.
+title: Private Room and Bathroom
+price: 425
+link: https://raleigh.craigslist.org/sub/d/private-room-and-bathroom/6556077714.html
+
+2.
+title: Short term stay at an affordable Student Apartment 450\$
+price: 450
+link: https://raleigh.craigslist.org/sub/d/short-term-stay-at-an/6544120113.html
+
+3.
+title: Completely furnished master bed room + bath + everything included
+price: 198
+link: https://raleigh.craigslist.org/sub/d/completely-furnished-master/6552780144.html
+
+4.
+title: \$140 Temporary Commuter Monday evening - Friday morning ONLY (Raleigh)
+price: 
+link: https://raleigh.craigslist.org/sub/d/140-temporary-commuter-monday/6551433225.html
+
+5.
+title: Single room/month to month.
+price: 450
+link: https://raleigh.craigslist.org/sub/d/single-room-month-to-month/6555840444.html
+
+6.
+title: Summer Sublease - Avent Ferry Rd
+price: 300
+link: https://raleigh.craigslist.org/sub/d/summer-sublease-avent-ferry-rd/6555666765.html
+
+7.
+title: FURNISHED ROOM w/private bath for Female student on NCSU Wolfline 5/6
+price: 430
+link: https://raleigh.craigslist.org/sub/d/furnished-room-private-bath/6553982218.html
+
+8.
+title: Master Bedroom Sublet - Near Downtown - Summer 2018
+price: 
+link: https://raleigh.craigslist.org/sub/d/master-bedroom-sublet-near/6555546064.html
+
+9.
+title: Sublet Master Bedroom - Minutes to Downtown
+price: 
+link: https://raleigh.craigslist.org/sub/d/sublet-master-bedroom-minutes/6542357710.html
+
+10.
+title: Sublet Near Downtown - Summer 2018 - \$700 utilities included
+price: 
+link: https://raleigh.craigslist.org/sub/d/sublet-near-downtown/6545608398.html
+
+11.
+title: Summer Sublet - Near Downtown
+price: 
+link: https://raleigh.craigslist.org/sub/d/summer-sublet-near-downtown/6551252311.html
+
+
+
+Persisting runtime data.
+Sleeping 4953 mms.
