@@ -9,10 +9,10 @@
             [harold.test-utils :refer [remove-last-lines]])
   (:import (java.io StringWriter)))
 
-(defn setup-and-teardown [run-tests]
+(defn setup-and-teardown [run-tests!]
   (let [original-runtime-data (slurp (io/resource "runtime-data.edn"))]
     (binding [harold.services.email/disabled? true]
-      (run-tests))
+      (run-tests!))
     (spit (io/resource "runtime-data.edn") original-runtime-data)))
 
 (use-fixtures :once setup-and-teardown)

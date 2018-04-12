@@ -31,8 +31,9 @@
   [doc]
   (.select doc "li.result-row"))
 
-(defn parse-result-rows [rows]
+(defn parse-result-rows
   "Given a list of the elements that we're interested in, return a list of ItemInfo records."
+  [rows]
   (map (fn [e]
          (item-info/create :description (parsing/description e)
                            :time (parsing/time e)
