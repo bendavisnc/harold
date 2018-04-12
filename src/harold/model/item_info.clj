@@ -1,6 +1,6 @@
 (ns harold.model.item-info
+  "Provides a simple record construct that defines all of the item data we're interested in."
   (:require [clojure.spec.alpha :as spec]
-            [clj-time.core :as t]
             [clj-time.format :as t-format]
             [harold.constants :as constants])
   (:import (org.joda.time DateTime)))
@@ -17,8 +17,8 @@
 (spec/fdef create :args (spec/cat :kwargs (spec/keys* :req-un [::description, ::time, ::price, ::url]))
                   :ret #(instance? ItemInfo %))
 
-;(def ^:private pretty-time-format (t-format/formatter "E, MMM d (KK:mm a)"))
 
-(defn with-pretty-time [info]
-  ;(update info :time #(t-format/unparse pretty-time-format %))
+(defn with-pretty-time 
+  "Takes a supplied ItemInfo record and returns the :time value as a string."
+  [info]
   (update info :time #(t-format/unparse (t-format/formatters constants/time-format) %)))

@@ -1,6 +1,9 @@
 Starting main loop.
 Performing new inquiry!
 Sending new email...
+subject...
+New results from harold craigslist scraper (11 results found).
+body...
 
 Found 11 results:
 
@@ -62,4 +65,4 @@ link: https://raleigh.craigslist.org/sub/d/summer-sublet-near-downtown/655125231
 
 
 Persisting runtime data.
-Sleeping 4953 mms.
+Sleeping 4384 mms.

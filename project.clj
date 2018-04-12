@@ -21,6 +21,3 @@
   :repl-options {:init-ns harold.core-test}
   :aliases {"launch" ["with-profile", "prod", "run"]})
 
-
-
-

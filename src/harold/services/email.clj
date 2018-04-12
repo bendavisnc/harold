@@ -1,8 +1,12 @@
 (ns harold.services.email
+  "Provides a function for actually sending an email based on new items we've found of interest."
   (:require [clostache.parser :as m]
             [postal.core :as e]
             [clojure.edn :as edn]
             [clojure.java.io :as io]))
+
+
+(def ^:dynamic disabled? false) ; Flag to disable actually sending an email (for testing).
 
 (def ^:private lazy-email-creds (atom nil))
 (defn- get-email-creds []
@@ -21,7 +25,7 @@
 
 
 
-(defn send-email [subject, body]
+(defn- send-email! [subject, body]
   (let [{:keys [address, password]} (get-email-creds)]
     (e/send-message {:host "smtp.gmail.com"
                      :user (get-username address)
@@ -33,12 +37,16 @@
                      :body body})))
 
 
-(defn email [items]
-  (println "Sending new email...")
-  (println (m/render-resource "email-body-template.txt" {:count (count items)
-                                                         :items (add-indexes items)})))
-
-
-
-
+(defn email! [items]
+  (let [render-data {:count (count items)
+                     :items (add-indexes items)}
+        subject-line (m/render-resource "email-subject-template.txt" render-data)
+        body (m/render-resource "email-body-template.txt" render-data)]
+    (println "Sending new email...")
+    (println "subject...")
+    (println subject-line)
+    (println "body...")
+    (println body)
+    (when (not disabled?)
+      (send-email! subject-line, body))))
 

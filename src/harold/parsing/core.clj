@@ -1,7 +1,7 @@
 (ns harold.parsing.core
+  "Provides functions that take a JSoup element and return the raw data we're interested in."
   (:refer-clojure :exclude [time])
-  (:require [clj-time.core :as t]
-            [clj-time.format :as t-format]))
+  (:require [clj-time.format :as t-format]))
 
 (def ^:private price-regex #"\$(\d*)")
 
@@ -11,9 +11,6 @@
 (defn- get-attribute [e, selector, attr]
   (.get (.attributes (first (.select e selector)))
         attr))
-
-
-
 
 (defn description [e]
   (.html (.select e "a.result-title")))
