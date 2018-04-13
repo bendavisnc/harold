@@ -1,36 +1,16 @@
-# harold
+# harold - A personal craigslist scraper to find me a place to live.
 
-FIXME: description
-
-## Installation
-
-Download from http://example.com/FIXME.
 
 ## Usage
 
-FIXME: explanation
+lein launch
 
-    $ java -jar harold-0.1.0-standalone.jar [args]
 
-## Options
+## What?
 
-FIXME: listing of options this app accepts.
+This is a pretty simple automated web scraper that I've written as a personal project.
 
-## Examples
+Currently, it scans the sublease section of craigslist, and emails me sublease opportunities that fit my criteria.
 
-...
+Uses [postal](https://github.com/drewr/postal) for emailing and [jsoup](https://jsoup.org/) for html retrieval and parsing. 
 
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
-
-## License
-
-Copyright © 2018 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
