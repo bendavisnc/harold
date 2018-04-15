@@ -40,16 +40,12 @@
                                            (harold/fetch-document (:url (utils/get-base-data))))))))))
 
   (testing "harold whole shebang"
-    (let [wait-time 1000
-          start-time (t/now)
-          out-capture (new StringWriter)
+    (let [out-capture (new StringWriter)
           async-process (future (binding [clojure.core/*out* out-capture]
                                   (harold/main-loop)))]
-      (while (< (- (.getMillis (t/now))
-                   (.getMillis start-time))
-                wait-time)
-        (Thread/sleep 1000))
+      (Thread/sleep 1000)
       (future-cancel async-process)
       ;(spit "./test/resources/shebang-capture.txt" out-capture)
       (is (= (remove-last-lines (slurp (io/resource "whole-shebang-result.txt")), 1)
              (remove-last-lines (str out-capture), 1))))))
+

@@ -8,12 +8,9 @@
 
 (def ^:dynamic disabled? false) ; Flag to disable actually sending an email (for testing).
 
-(def ^:private lazy-email-creds (atom nil))
-(defn- get-email-creds []
-  (or (deref lazy-email-creds)
-      (let [retrieved-creds (edn/read-string (slurp (io/resource "email-creds.edn")))]
-        (reset! lazy-email-creds retrieved-creds)
-        retrieved-creds)))
+(def get-email-creds 
+  (memoize (fn []
+             (edn/read-string (slurp (io/resource "email-creds.edn"))))))
 
 (defn- get-username [email-address]
   (subs email-address 0 (.indexOf email-address "@")))
